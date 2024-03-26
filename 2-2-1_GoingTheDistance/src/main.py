@@ -7,13 +7,26 @@
 #                                                                              #
 # ---------------------------------------------------------------------------- #
 
+# API: https://www.robotmesh.com/studio/content/docs/vexv5-python/html/hierarchy.html
+
 # Library imports
 from vex import *
 
 # Brain should be defined by default
 brain=Brain()
 
-brain.screen.print("Hello V5")
+leftMotor = Motor(Ports.PORT1, False)
+rightMotor = Motor(Ports.PORT10, True)
+distanceSensor = Distance(Ports.PORT6)
 
-
-        
+while True :
+    if (distanceSensor.object_distance(DistanceUnits.IN) < 2):
+        leftMotor.stop()
+        rightMotor.stop()
+    elif (distanceSensor.object_distance(DistanceUnits.IN) < 3):
+        leftMotor.spin(FORWARD, 50, PERCENT)
+        rightMotor.spin(FORWARD, 50, PERCENT)
+    else:
+        leftMotor.spin(FORWARD, 100, PERCENT)
+        rightMotor.spin(FORWARD, 100, PERCENT)
+    wait(30, MSEC)
