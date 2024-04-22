@@ -14,8 +14,20 @@ from vex import *
 brain=Brain()
 
 motor = Motor(Ports.PORT1)
+beatTime = 0.5 # Seconds
+
+motor.spin_to_position(15, DEGREES)
+
+def Strike():
+    motor.spin_to_position(15, DEGREES)
+    motor.spin_to_position(-15, DEGREES)
 
 while True:
-    motor.spin_to_position(15, DEGREES)
-    motor.spin_to_position(0, DEGREES)
-    wait(1, SECONDS)
+    wait(beatTime * 6, SECONDS) # Happy birthday to you
+    Strike()
+    wait(beatTime * 6, SECONDS) # Happy birthday to you
+    Strike()
+    wait(beatTime * 6, SECONDS) # Happy birthday dear ___
+    wait(beatTime * 2, SECONDS) # ...
+    wait(beatTime * 6, SECONDS) # Happy birthday to you
+    Strike()
