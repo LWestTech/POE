@@ -9,7 +9,7 @@
 		"creationDate": "4/15/2024, 10:08:12 AM",
 		"platform": "V5",
 		"language": "python",
-		"slot": 1,
+		"slot": 2,
 		"sdkVersion": "V5_1_0_1_19",
 		"python": {
 			"main": "src/main.py"
