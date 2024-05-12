@@ -8,63 +8,73 @@
 # ---------------------------------------------------------------------------- #
 
 # Library imports
+import array
 from vex import *
+# from collections import OrderedDict
 
 # Brain should be defined by default
 brain=Brain()
 motor = Motor(Ports.PORT5)
 bumper = Bumper(brain.three_wire_port.b)
 beatTime = 0.6 # Seconds
-motor.spin_to_position(-30, DEGREES)
+beatsPerMeasure = 8
+playing = False
+
+class Note:
+    def play(self):
+        strike()
+
+class Measure:
+    array = []
+    def addNote(self, note):
+        self.array.append(note)
+    def play(self):
+        for note in self.array:
+            note.play()
+        
 
 def strike():
     motor.spin_to_position(4, DEGREES)
     motor.spin_to_position(-30, DEGREES)
+    
+def print(text):
+    brain.screen.clear_screen()
+    brain.screen.set_cursor(1,1)
+    brain.screen.print(text)
+
 
 def wait_beats(beats):
     i = 0
     while beats > 0:
         if beats >= 1:
-            brain.screen.clear_line(2)
-            brain.screen.set_cursor(2,1)
-            brain.screen.print(i + 1)
+            print(i + 1)
             wait(beatTime, SECONDS)
             i += 1
             beats -= 1
         else:
-            brain.screen.clear_line(2)
-            brain.screen.set_cursor(2,1)
-            brain.screen.print("~ " + beats)
+            print(str(beats))
             wait(beatTime * beats, SECONDS)
+            beats = 0
 
 while True:
     wait(.01, SECONDS)
-    brain.screen.clear_screen()
-    brain.screen.set_cursor(1,1)
-    brain.screen.print ("Waiting for button...")
+    print("Waiting for button...")
     if bumper.pressing():
-        brain.screen.clear_screen()
-        brain.screen.set_cursor(1,1)
-        brain.screen.print ("Happy birthday to you")
+        motor = Motor(Ports.PORT5)
+        motor.spin_to_position(-30, DEGREES)
+        print("Happy birthday to you")
         wait_beats(5) # Happy birthday to you
         strike()
         wait(3 * beatTime, SECONDS)
-        brain.screen.clear_screen()
-        brain.screen.set_cursor(1,1)
-        brain.screen.print ("Happy birthday to you")
+        print("Happy birthday to you")
         wait_beats(5) # Happy birthday to you
         strike()
         wait(3 * beatTime, SECONDS)
-        brain.screen.clear_screen()
-        brain.screen.set_cursor(1,1)
-        brain.screen.print ("Happy birthday dear ___")
+        print("Happy birthday dear ___")
         wait_beats(6) # Happy birthday dear ___
-        brain.screen.clear_screen()
-        brain.screen.set_cursor(1,1)
-        brain.screen.print ("...")
+        print("...")
         wait_beats(1) # ...
-        brain.screen.clear_screen()
-        brain.screen.set_cursor(1,1)
-        brain.screen.print ("Happy birthday to you")
-        wait_beats(6) # Happy birthday to you
+        print("Happy birthday to you")
+        wait_beats(6.1) # Happy birthday to you
         strike()
+    motor = Motor(Ports.PORT20)
